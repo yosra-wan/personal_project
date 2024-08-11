@@ -33,6 +33,10 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
+    - name: Check network connectivity to SMTP server
+      run: |
+        ping -c 4 smtp.office365.com
+
     - name: Send APK via Email
       uses: dawidd6/action-send-mail@v3
       with:
@@ -42,7 +46,7 @@ jobs:
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: "New APK Build"
         body: "Please find the attached APK build."
-        to: "yasmina.tounseya@gmail.com"  
+        to: "yasmina.tounseya@gmail.com"
         from: ${{ secrets.EMAIL_USERNAME }}
-        secure: true 
+        secure: true  
         attachments: "build/app/outputs/flutter-apk/app-release.apk"
