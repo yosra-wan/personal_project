@@ -1,0 +1,5 @@
+package com.example.verd_ai
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity()
