@@ -35,12 +35,12 @@ jobs:
 
     - name: Upload APK to App Center
       env:
-        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}  # Reference to the secret stored in GitHub
+        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
       run: |
-        curl \
-          -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
-          -F "release_notes=Automated build from GitHub Actions" \
-          -F "distribution_group_names=Collaborators" \  # Replace with your distribution group
-          -F "mandatory_update=true" \  # Optional: Mark the update as mandatory
-          -H "X-API-Token: $APPCENTER_API_TOKEN" \
-          https://api.appcenter.ms/v0.1/apps/yosrawanene28/verdai/release_uploads  # Replace with your App Center owner and app name
+        curl -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
+             -F "release_notes=Automated build from GitHub Actions" \
+             -F "distribution_group_names=Collaborators" \
+             -F "mandatory_update=true" \
+             -H "X-API-Token: $APPCENTER_API_TOKEN" \
+             https://api.appcenter.ms/v0.1/apps/yosrawanene28/verdai/release_uploads
+    
