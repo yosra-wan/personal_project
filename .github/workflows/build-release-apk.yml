@@ -33,41 +33,14 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
-    - name: List generated APKs
-      run: ls -alh build/app/outputs/flutter-apk/
-
-    - name: Upload APK to GitHub Releases
-      uses: actions/upload-artifact@v3
-      with:
-        name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Download APK
-      uses: actions/download-artifact@v3
-      with:
-        name: app-release.apk
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Upload APK to App Center
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: 'v1.0.${{ github.run_number }}'
-        release_name: 'Release v1.0.${{ github.run_number }}'
-        draft: false
-        prerelease: false
-        body: "Automated release for commit ${{ github.sha }}."
-
-    - name: Upload APK to Release
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/app/outputs/flutter-apk/app-release.apk  # Le chemin correct
-        asset_name: app-release.apk
-        asset_content_type: application/vnd.android.package-archive
+        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}  # Reference to the secret stored in GitHub
+      run: |
+        curl \
+          -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
+          -F "release_notes=Automated build from GitHub Actions" \
+          -F "distribution_group_names=Collaborators" \  # Replace with your distribution group
+          -F "mandatory_update=true" \  # Optional: Mark the update as mandatory
+          -H "X-API-Token: $APPCENTER_API_TOKEN" \
+          https://api.appcenter.ms/v0.1/apps/{yosra-wan}/{verdai}/release_uploads  # Replace with your App Center owner and app name
