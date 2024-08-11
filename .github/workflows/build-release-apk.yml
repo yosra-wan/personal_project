@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build and Distribute APK via App Center
 
 on:
   push:
@@ -36,12 +36,15 @@ jobs:
     - name: Install App Center CLI
       run: npm install -g appcenter-cli
 
-    - name: Upload APK to App Center
-      env:
-        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
+    - name: Login to App Center
+      run: appcenter login --token ${{ secrets.APPCENTER_API_TOKEN }}
+
+    - name: Distribute APK via App Center
       run: |
         appcenter distribute release \
           --app "yosrawanene28/verdai" \
           --group "Collaborators" \
           --file "build/app/outputs/flutter-apk/app-release.apk" \
           --release-notes "Automated build from GitHub Actions"
+      env:
+        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
