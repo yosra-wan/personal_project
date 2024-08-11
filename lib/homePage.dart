@@ -38,7 +38,7 @@ class MyHomePage extends StatelessWidget {
     if (isEcoMode) {
       return ['Eco Hôtel 1', 'Eco Hôtel 2', 'Eco Hôtel 3'];
     } else {
-      return ['Hôtel Normal 1', 'Hôtel Normal 2', 'Hôtel Normal 3'];
+      return ['Hôtel Normal 2', 'Hôtel Normal 1', 'Hôtel Normal 3'];
     }
   }
 }
