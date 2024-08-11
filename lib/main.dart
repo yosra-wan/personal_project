@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 final ThemeData normalTheme = ThemeData(
-  primarySwatch: Colors.blue,
+  primarySwatch: Colors.cyan,
   appBarTheme: AppBarTheme(
     color: Colors.blue,
   ),
