@@ -43,4 +43,4 @@ jobs:
           -F "distribution_group_names=Collaborators" \  # Replace with your distribution group
           -F "mandatory_update=true" \  # Optional: Mark the update as mandatory
           -H "X-API-Token: $APPCENTER_API_TOKEN" \
-          https://api.appcenter.ms/v0.1/apps/{yosra-wan}/{verdai}/release_uploads  # Replace with your App Center owner and app name
+          https://api.appcenter.ms/v0.1/apps/yosrawanene28/verdai/release_uploads  # Replace with your App Center owner and app name
