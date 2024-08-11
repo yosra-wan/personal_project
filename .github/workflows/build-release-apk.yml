@@ -44,4 +44,5 @@ jobs:
         body: "Please find the attached APK build."
         to: "yasmina.tounseya@gmail.com"  
         from: ${{ secrets.EMAIL_USERNAME }}
+        secure: true 
         attachments: "build/app/outputs/flutter-apk/app-release.apk"
