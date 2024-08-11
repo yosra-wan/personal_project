@@ -33,20 +33,14 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
-    - name: Check network connectivity to SMTP server
+    - name: Upload APK to App Center
+      env:
+        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
       run: |
-        ping -c 4 smtp.office365.com
-
-    - name: Send APK via Email
-      uses: dawidd6/action-send-mail@v3
-      with:
-        server_address: ${{ secrets.SMTP_SERVER }}
-        server_port: ${{ secrets.SMTP_PORT }}
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: "New APK Build"
-        body: "Please find the attached APK build."
-        to: "yasmina.tounseya@gmail.com"
-        from: ${{ secrets.EMAIL_USERNAME }}
-        secure: true  
-        attachments: "build/app/outputs/flutter-apk/app-release.apk"
+        curl -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
+             -F "release_notes=Automated build from GitHub Actions" \
+             -F "distribution_group_names=Collaborators" \
+             -F "mandatory_update=true" \
+             -H "X-API-Token: $APPCENTER_API_TOKEN" \
+             https://api.appcenter.ms/v0.1/apps/yosrawanene28/verdai/release_uploads
+    
