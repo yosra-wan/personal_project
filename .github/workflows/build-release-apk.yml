@@ -1,4 +1,4 @@
-name: Build and Distribute APK via App Center
+name: Build and Send APK via Email
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build:
+  build-and-send:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,18 +33,15 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
-    - name: Install App Center CLI
-      run: npm install -g appcenter-cli
-
-    - name: Login to App Center
-      run: appcenter login --token ${{ secrets.APPCENTER_API_TOKEN }}
-
-    - name: Distribute APK via App Center
-      run: |
-        appcenter distribute release \
-          --app "yosrawanene28/verdai" \
-          --group "Collaborators" \
-          --file "build/app/outputs/flutter-apk/app-release.apk" \
-          --release-notes "Automated build from GitHub Actions"
-      env:
-        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
+    - name: Send APK via Email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ secrets.SMTP_SERVER }}
+        server_port: ${{ secrets.SMTP_PORT }}
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "New APK Build"
+        body: "Please find the attached APK build."
+        to: "yasmina.tounseya@gmail.com"  
+        from: ${{ secrets.EMAIL_USERNAME }}
+        attachments: "build/app/outputs/flutter-apk/app-release.apk"
