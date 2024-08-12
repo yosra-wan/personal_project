@@ -33,14 +33,24 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
-    - name: Upload APK to App Center
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
       env:
-        APPCENTER_API_TOKEN: ${{ secrets.APPCENTER_API_TOKEN }}
-      run: |
-        curl -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
-             -F "release_notes=Automated build from GitHub Actions" \
-             -F "distribution_group_names=Collaborators" \
-             -F "mandatory_update=true" \
-             -H "X-API-Token: $APPCENTER_API_TOKEN" \
-             https://api.appcenter.ms/v0.1/apps/yosrawanene28/verdai/release_uploads
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: 'v1.0.${{ github.run_number }}'
+        release_name: 'Release v1.0.${{ github.run_number }}'
+        draft: false
+        prerelease: false
+        body: |
+          Automated release for commit ${{ github.sha }}.
     
+    - name: Upload APK to Release
+      uses: actions/upload-release-asset@v1
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive
+      
