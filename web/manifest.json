@@ -1,6 +1,6 @@
 {
-    "name": "verd_ai",
-    "short_name": "verd_ai",
+    "name": "personal_project",
+    "short_name": "personal_project",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

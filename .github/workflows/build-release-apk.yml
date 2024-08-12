@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build, Release, and Send APK via Email
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build-and-release:
+  build-release-and-send:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +33,7 @@ jobs:
     - name: Build APK
       run: flutter build apk --release
 
-    - name: Push to GitHub Releases
+    - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
         artifacts: "build/app/outputs/apk/release/*"
@@ -44,3 +44,16 @@ jobs:
           Automated release for commit ${{ github.sha }}.
         draft: false
         prerelease: false
+
+    - name: Send Email with APK Download Link
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ secrets.SMTP_SERVER }}
+        server_port: ${{ secrets.SMTP_PORT }}
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "New APK Build Available"
+        body: "The new APK build is available for download at: https://github.com/${{ github.repository }}/releases/download/v1.0.${{ github.run_number }}/app-release.apk"
+        to: "yasmina.tounseya@gmail.com"  
+        from: ${{ secrets.EMAIL_USERNAME }}
+        secure: true  

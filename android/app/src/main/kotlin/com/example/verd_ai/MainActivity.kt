@@ -1,4 +1,4 @@
-package com.example.verd_ai
+package com.example.personal_project
 
 import io.flutter.embedding.android.FlutterActivity
 

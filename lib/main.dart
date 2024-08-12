@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:verd_ai/homePage.dart';
+import 'package:personal_project/homePage.dart';
 
 void main() {
   runApp(MyApp());
