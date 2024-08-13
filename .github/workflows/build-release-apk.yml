@@ -48,12 +48,12 @@ jobs:
     - name: Send Email with APK Download Link
       uses: dawidd6/action-send-mail@v3
       with:
-        server_address: ${{ secrets.SMTP_SERVER }}
-        server_port: ${{ secrets.SMTP_PORT }}
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
+        server_address: "smtp.office365.com" 
+        server_port: "587"  
+        username: "${{ secrets.EMAIL_USERNAME }}"  
+        password: "${{ secrets.EMAIL_PASSWORD }}" 
         subject: "New APK Build Available"
         body: "The new APK build is available for download at: https://github.com/${{ github.repository }}/releases/download/v1.0.${{ github.run_number }}/app-release.apk"
         to: "yasmina.tounseya@gmail.com"  
-        from: ${{ secrets.EMAIL_USERNAME }}
+        from: "${{ secrets.EMAIL_USERNAME }}" 
         secure: true  
