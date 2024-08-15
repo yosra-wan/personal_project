@@ -50,7 +50,7 @@ jobs:
       with:
         server_address: "smtp.office365.com" 
         server_port: "587"  
-        username: "${{ secrets.EMAIL_USERNAME }}"  
+        username: "yosrawanene28@gmail.com"  
         password: "${{ secrets.EMAIL_PASSWORD }}" 
         subject: "New APK Build Available"
         body: "The new APK build is available for download at: https://github.com/${{ github.repository }}/releases/download/v1.0.${{ github.run_number }}/app-release.apk"
